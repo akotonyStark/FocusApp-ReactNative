@@ -1,25 +1,23 @@
-import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native'
-import Dummy from './components/Dummy'
+import { Text, Button, View, StyleSheet } from 'react-native'
+// import Constants from 'expo-constants';
+import Focus from './src/features/focus/Focus'
+
+// You can import from local files
+//import AssetExample from '/src/components/AssetExample';
+
+// or any pure javascript modules available in npm
+import { Card } from 'react-native-paper'
 
 export default function App() {
-  const [isLoggedIn, setisLoggedIn] = useState(false)
+  const [focusSubject, setFocusSubject] = useState(null)
   return (
     <View style={styles.container}>
-      <StatusBar style='auto' />
-      {isLoggedIn ? (
-        <Dummy />
+      {focusSubject ? (
+        <Text>Timer goes here{focusSubject}</Text>
       ) : (
-        <Button
-          title='Click to login'
-          style={{ backgroundColor: 'red' }}
-          onPress={() => {
-            setisLoggedIn(true)
-          }}
-        ></Button>
+        <Focus addSubject={setFocusSubject}></Focus>
       )}
-      <Text>Welcome to Focus App</Text>
     </View>
   )
 }
@@ -27,8 +25,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    // paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#FFC300',
+    padding: 8,
   },
 })
