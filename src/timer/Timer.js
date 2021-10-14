@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { View, StyleSheet, Text, Button, Vibrate, Vibration, Platform } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { colors } from '../utils/colors';
 import { fontSizes } from '../utils/sizes';
@@ -10,14 +10,31 @@ import {useKeepAwake} from 'expo-keep-awake';
 
 export const Timer = ({ focusSubject }) => {
   useKeepAwake();
-  
+
   const [isStarted, setIsStarted] = React.useState(false);
   const [progress, setProgress] = React.useState(1);
-  const [minutes, setMinutes] = React.useState(1);
+  const [minutes, setMinutes] = React.useState(0.05);
 
   const onProgress = (progress) => {
     setProgress(progress);
   };
+
+  const onEnd = () => {
+    vibrate()
+    setMinutes(1);
+    setProgress(0.5);
+    setIsStarted(false);
+  }
+
+  const vibrate = () => {
+    if(Platform.OS === 'ios'){
+const interval = setInterval(() => Vibration.vibrate(), 1000)
+setTimeout(() => clearInterval((interval), 10000))
+    }
+    else{
+      Vibration.vibrate('10s')
+    }
+  }
 
   const changeTime = (min) => {
     setMinutes(min);
@@ -37,6 +54,7 @@ export const Timer = ({ focusSubject }) => {
         isStarted={isStarted}
         onProgress={onProgress}
         minutes={minutes}
+        onEnd = {onEnd}
       />
       <View>
         <Text style={styles.title}>Focusing on: </Text>
