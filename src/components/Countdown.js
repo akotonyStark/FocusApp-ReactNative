@@ -4,7 +4,8 @@ import { StyleSheet, Text, View } from 'react-native'
 const minutesToMillis = (min) => min * 1000 * 60
 const formatTime = (time) => (time < 10 ? `0${time}` : time)
 
-export default function Countdown({ minutes = 1, isStarted, onProgress }) {
+export default function Countdown({ minutes, isStarted, onProgress }) {
+
   const [millis, setMillis] = React.useState(minutesToMillis(minutes))
 
   let minute = Math.floor(millis / 1000 / 60) % 60
@@ -27,11 +28,22 @@ export default function Countdown({ minutes = 1, isStarted, onProgress }) {
     }
   }
 
-  React.useEffect(() => {
-    interval.current = setInterval(countdown, 1000)
+  React.useEffect(() => {    
+    console.log(millis, minutes)
+    
+  }, [millis, minutes])
 
+  React.useEffect(() => {
+    if(!isStarted){
+      if(interval.current){
+        clearInterval(interval.current)
+      }
+      return
+    }
+    interval.current = setInterval(countdown, 1000)  
     return () => clearInterval(interval.current)
-  }, [millis, isStarted])
+  }, [isStarted, countdown])
+
   return (
     <View style={{ alignItems: 'center' }}>
       <Text style={styles.text}>
