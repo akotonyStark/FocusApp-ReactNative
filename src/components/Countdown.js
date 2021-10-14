@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 const minutesToMillis = (min) => min * 1000 * 60
 const formatTime = (time) => (time < 10 ? `0${time}` : time)
 
-export default function Countdown({ minutes, isStarted, onProgress }) {
+export default function Countdown({ minutes, isStarted, onProgress, onEnd }) {
 
   const [millis, setMillis] = React.useState(minutesToMillis(minutes))
 
@@ -18,6 +18,8 @@ export default function Countdown({ minutes, isStarted, onProgress }) {
       setMillis((millis) => {
         if (millis === 0) {
           //do stuff
+          clearInterval(interval.current);
+          onEnd();
           return millis
         }
         const timeLeft = millis - 1000
