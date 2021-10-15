@@ -7,9 +7,7 @@ import { colors } from './src/utils/colors'
 import { Timer } from './src/timer/timer'
 
 // You can import from local files
-//import AssetExample from '/src/components/AssetExample';
 
-// or any pure javascript modules available in npm
 import { Card } from 'react-native-paper'
 
 export default function App() {
